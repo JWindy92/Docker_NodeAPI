@@ -1,15 +1,17 @@
 var mysql_conn;
 
+const config = require("../config/mysql")
+
 function test_func() {
     console.log("Hello from mysql_funcs.js")
 }
 
 function init(mysql) {
     mysql_conn = mysql.createConnection({
-        host: "localhost",
-        user: "root",
-        password: "12345",
-        database: 'test_db',
+        host: config.HOST,
+        user: config.USER,
+        password: config.PASSWORD,
+        database: config.DB,
     })
 }
 
@@ -40,23 +42,18 @@ function deleteUser() {
 
 function getAllUsers() {
     connect()
+
     mysql_conn.query(
         "SELECT * FROM users",
         (err, results, fields) => {
             if (err) throw err;
             console.log(results)
-            // console.log(fields)
         }
     )
 }
 
 function test_mysql() {
-    getUser(1)
-    createUser()
-    getAllUsers()
-    updateUser()
-    deleteUser()
-    getAllUsers()
+    return getAllUsers()
 }
 
 

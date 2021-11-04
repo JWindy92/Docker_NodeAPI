@@ -3,9 +3,11 @@ var app = express()
 var mysql = require('mysql2')
 var mysql_funcs = require('./databases/mysql_funcs')
 
+require("dotenv").config()
+
 mysql_funcs.init(mysql)
 
-const port = 3000
+const PORT = process.env.NODE_DOCKER_PORT || 3000
 
 app.get("/", (req, res) => {
     res.json({
@@ -16,8 +18,11 @@ app.get("/", (req, res) => {
 
 app.get("/tests/mysql", (req, res) => {
     mysql_funcs.test_mysql()
+    res.json({
+        "statusCode": res.statusCode,
+    })
 })
 
-app.listen(port, () => {
-    console.log(`Server running on port ${port}`)
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`)
 })
